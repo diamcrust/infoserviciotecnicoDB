@@ -1,0 +1,146 @@
+CREATE DATABASE TALLER_MECANICO;
+
+CONNECT TALLER_MECANICO;
+
+
+CREATE TABLE auto(placa VARCHAR(7), marca VARCHAR(50), anio_fab INTEGER (4), modelo VARCHAR(50), PRIMARY KEY(placa));
+CREATE TABLE puesto(cve_puesto INTEGER(10), nombre VARCHAR(50), PRIMARY KEY(cve_puesto));
+CREATE TABLE mecanico(RFC VARCHAR(13), nombre VARCHAR(50), cve_puesto INTEGER(10), activo BOOLEAN, PRIMARY KEY(RFC), FOREIGN KEY(cve_puesto) REFERENCES puesto(cve_puesto));
+CREATE TABLE trabajos(ID VARCHAR(10), placa VARCHAR(7), RFC VARCHAR(13), horas_rep FLOAT(4), fecha_rep DATE, PRIMARY KEY(ID), FOREIGN KEY(placa) REFERENCES auto(placa), FOREIGN KEY(RFC) REFERENCES mecanico(RFC));
+
+CREATE TABLE cliente(cve_cliente int(8) NOT NULL, nombre varchar(35) NOT NULL, calle varchar(35) NOT NULL,num_dom int(5), colonia varchar(35) NOT NULL, localidad varchar(35) NOT NULL, municipio varchar(35) NOT NULL, estado varchar(35) NOT NULL, pais varchar(20) NOT NULL, tarifa float(10), PRIMARY KEY(cve_cliente));
+CREATE TABLE cliente_auto (cve_cliente int(8) NOT NULL, placa varchar(9) NOT NULL, FOREIGN KEY(cve_cliente) REFERENCES cliente(cve_cliente), FOREIGN KEY(placa) REFERENCES auto(placa));
+CREATE TABLE taller(rfc_taller varchar(15) NOT NULL, nombre varchar(15) NOT NULL, calle varchar(35) NOT NULL,num_dom int(5), colonia varchar(35) NOT NULL, localidad varchar(35) NOT NULL, municipio varchar(35) NOT NULL, estado varchar(35) NOT NULL, pais varchar(20) NOT NULL, PRIMARY KEY(rfc_taller));
+CREATE TABLE accidente(num_accidente int(8) NOT NULL, cve_cliente int(8) NOT NULL, placa varchar(9) NOT NULL, rfc_taller varchar(15) NOT NULL, fecha date, costo float(10) NOT NULL , PRIMARY KEY (num_accidente), FOREIGN KEY(cve_cliente) REFERENCES cliente_auto(cve_cliente), FOREIGN KEY(placa) REFERENCES cliente_auto(placa));
+
+INSERT INTO auto VALUES("ZBK-123", "Renault","2017","captur", "Café");
+INSERT INTO auto VALUES("NCD-285", "Renault","2021","Logan", "Negro");
+INSERT INTO auto VALUES("FBS-187", "Nisan" ,"2019","Versa", "Negro");
+INSERT INTO auto VALUES("ACK-403", "Toyota","2012","RAV4", "Negro");
+INSERT INTO auto VALUES("BKD-561", "BMW"   ,"2020","Corolla", "Rojo");
+INSERT INTO auto VALUES("PEP-122", "Chrysler","2022","Dodge", "Café");
+INSERT INTO auto VALUES("SEP-222", "Ford","2022","Fiesta", "Rojo");
+INSERT INTO auto VALUES("TEP-322", "Audi","2008","A5", "Café");
+INSERT INTO auto VALUES("CEP-422", "Audi","2012","A6", "Rojo");
+INSERT INTO auto VALUES("QEP-522", "Bentley","2020","Bentayga", "Rojo");
+INSERT INTO auto VALUES("SEP-622", "Bentley","2021","Continental GT/GTC", "Rojo");
+INSERT INTO auto VALUES("SBP-722", "Cupra","2019","Formentor", "Café");
+INSERT INTO auto VALUES("OEP-822", "Honda","2018","Civic", "Café");
+INSERT INTO auto VALUES("NEP-922", "Honda","2012","Civic Tourer", "Rojo");
+INSERT INTO auto VALUES("DEP-132", "Honda","2014","CR-V", "Negro");
+INSERT INTO auto VALUES("OSP-232", "Honda","2014","CR-Z", "Negro");
+INSERT INTO auto VALUES("DSP-332", "Jepp","2022","Avenger", "Café");
+INSERT INTO auto VALUES("TSP-432", "Jepp","2020","Cherokee", "Rojo");
+INSERT INTO auto VALUES("CSP-532", "Jepp","2018","Gladiator", "Amarillo");
+INSERT INTO auto VALUES("QSP-632", "Jepp","2019","Grand Cherokee", "Negro");
+
+INSERT INTO mecanico VALUES("ALZJ8508282C9","Juan","102451","0");
+INSERT INTO mecanico VALUES("HELA8903234L5","Antonio","102451","0");
+INSERT INTO mecanico VALUES("RAJJ9704255K8","Pepe","102451","1");
+INSERT INTO mecanico VALUES("RAPL0101308S6","Luis","102451","1");
+INSERT INTO mecanico VALUES("SUJK9912258H5","Kevin","102451","1");
+INSERT INTO mecanico VALUES("CREE950201C99","Ernesto","102451","1");
+INSERT INTO mecanico VALUES("CACO9603021A2","Octavio","102451","1");
+INSERT INTO mecanico VALUES("BUBL9704032B3","Luis Fernando","102451","1");
+INSERT INTO mecanico VALUES("ZAZA9805043C4","Alexandre","152452","0");
+INSERT INTO mecanico VALUES("ARAJ9906054D5","Jesus Maria","102451","0");
+INSERT INTO mecanico VALUES("COCJ0007065E6","Josefina","152452","1");
+INSERT INTO mecanico VALUES("LOLY0108076F7","Yesica","102451","0");
+INSERT INTO mecanico VALUES("QIQA0209087G8","Abderrahim","102451","1");
+INSERT INTO mecanico VALUES("KUBS0310098H9","Shinji Kun","845145","1");
+INSERT INTO mecanico VALUES("MONK0411109I0","Kurogiri","542587","1");
+INSERT INTO mecanico VALUES("VIZS0512110J1","Shigaraki","542587","0");
+INSERT INTO mecanico VALUES("INOC0601121K2","Corner","152452","1");
+INSERT INTO mecanico VALUES("MOVM0702132L3","Majo","102451","0");
+INSERT INTO mecanico VALUES("ALER0803143M4","Raul","102521","1");
+INSERT INTO mecanico VALUES("ALER0904154N5","Ruben","102521","1");
+
+INSERT INTO puesto VALUES("102451","Mecanico");
+INSERT INTO puesto VALUES("102521","Supervisor");
+INSERT INTO puesto VALUES("152452","DBA");
+INSERT INTO puesto VALUES("542587","Sub Jefe");
+INSERT INTO puesto VALUES("845145","Jefe");
+
+INSERT INTO trabajos VALUES("211111","PEP-122","CREE950201C99","10.2","2022-11-01");
+INSERT INTO trabajos VALUES("212121","SEP-222","BUBL9704032B3","1.2","2022-11-03");
+INSERT INTO trabajos VALUES("232678","DEP-132","LOLY0108076F7","2.2","2022-11-03");
+INSERT INTO trabajos VALUES("324566","QSP-632","MOVM0702132L3","5.0","2022-11-01");
+INSERT INTO trabajos VALUES("445724","OSP-232","QIQA0209087G8","3.4","2022-11-03");
+
+
+INSERT INTO cliente VALUES("123456", "Pedro Castillo Cantú", "Venustiano Carranza", "50", "Cerro de Coatepec", "Toluca", "Toluca de Lerdo", "Estado de México", "México", "15000");
+INSERT INTO cliente VALUES("456789", "Omar Monrroy Salazar", "Privada 3 de Mayo", "123", "Barrio de la Veracruz", "San Miguel Zinacantepec", "Zinacantepec", "Estado de México", "México", "4200");
+INSERT INTO cliente VALUES("345743", "Fernado Denovan Calzada", "Independencia", "3", "Transfiguración", "San Cristobal Tecolit", "Zinacantepec", "Estado de México", "México", "13599");
+INSERT INTO cliente VALUES("111245", "Carla Cacique Vasquéz", "Morelos", "150", "La Merded", "Toluca", "Toluca de Lerdo", "Estado de México", "México", "25600");
+INSERT INTO cliente VALUES("577585", "Valeria Fabiola Carranza", "Pinozuares", "510", " ", "Toluca", "Toluca de Lerdo", "Estado de México", "México", "15000"); 
+INSERT INTO cliente VALUES("111111", "Gerardo Palacios Suaréz", "Venustiano Carranza", "5", "Cerro de Coatepec", "Toluca", "Toluca de Lerdo", "Estado de México", "México", "1500");
+INSERT INTO cliente VALUES("456576", "Juan Iglesias Coca", "Av. Jose Maria Morelos", "50", "Barrio de San Bernardino", "Toluca Centro", "Toluca de Lerdo", "Estado de México", "México", "800");
+INSERT INTO cliente VALUES("765757", "Maria Echevarria Goméz", "Av. S.S. Juan Pablo Segundo", "501", "San Mateo", "Cuaxustenco", "Metepec", "Estado de México", "México", "4560");
+INSERT INTO cliente VALUES("191111", "Alfonso Barrera Espejo", "Vasco de Quiroga", "1329", "Cuevitas", "Santa Fe", "Álvaro Obregón", "Ciudad de México", "México", "3456");
+INSERT INTO cliente VALUES("192222", "Carlota Palau Azcona", "Tenochtitlan", "45236", "Villa del Ixtépete", "Villa", "Zapopan", "Jalisco", "México", "555");
+INSERT INTO cliente VALUES("193333", "Lorenzo Lorenzo Hernandez", "Alfonso G. Calderon", "S/N", "Cinco de Mayo", "Los Mochis", "Los Mochis", "Sinaloa", "México", "1600");
+INSERT INTO cliente VALUES("194444", "Edgar del Rios", "Blvd N", "25601", "E Sun Lakes", "Sun Lakes", "Poenix", "Arizona", "Estados Unidos", "150000");
+INSERT INTO cliente VALUES("195555", "Toni Valentin Quintero", "bis Rue Lavosier", "30", "Commetry", "Commetry", "Commetry", "Commetry", "Francia", "9000");
+INSERT INTO cliente VALUES("201111", "Sack Remedios de Giménez", "C. de la Cañada", "17", "Vinateros", "", "", "Madrid", "España", "5680");
+INSERT INTO cliente VALUES("202222", "Bernarda del Ferrea", "Dra Jose María", "445", "Centro", "Monterrey", "San Pedro Garza García", "Nuevo Leon", "México", "500");
+INSERT INTO cliente VALUES("203333", "Gema del Muñoz", "Miguel Aleman", "66603", "Cerro de Coatepec", "Ciudad Apodaca", "Ciudad Apodaca", "Nuevo Leon", "México", "9999");
+INSERT INTO cliente VALUES("204444", "Camila Castellanos Nicolau", "Blvd Harold R. Pape", "1909", "Zona Centro", "Frontera", "Frontera", "Coahuila de Zaragoza", "México", "889980");
+INSERT INTO cliente VALUES("205555", "Ándres Salgado Tomé", "Av. Héroe de Nacozari", "64", "Bario de la Purisima", "Carboneras", "Pabellon de Arteaga", "Aguascalientes", "México", "1500000");
+INSERT INTO cliente VALUES("206666", "Rosario López Aguilera", "Aldama", "285", "La bomba", "San Francisco", "Huajicori", "Nayarit", "México", "15000");
+INSERT INTO cliente VALUES("207777", "Socorro Helping Now", "Carreterra Internacional a Oaxaca", "22", "Cuarta Sección", "San Juan Raboso", "Izúcar de  Matamoros", "Puebla", "México", "15000");
+
+INSERT INTO taller VALUES("TP1101122", "TMDAP", "AV. Adolfo Lopez Mateos","114", "Cd. Deportiva", "Linda Vista","San Miguel Zinacantepec","Estado de México","México");
+INSERT INTO taller VALUES("TS2101122", "TMDAS", "Paseo de la Reforma","114", "Renacimiento", "Juarez","Cuauhtémoc","Ciudad de México","México",NULL);
+INSERT INTO taller VALUES("TT3101122", "TMDAT", "Tampico Arabe","2200", "  Trisiño", "Pázcuaro", "Guadalajara","Jalisco","México",NULL);
+INSERT INTO taller VALUES("TC4101122", "TMDAC", "Pico de Orizaba","333", "San Tobias", "Buena Ronda", "San Franscisco", "Colima","México",NULL);
+INSERT INTO taller VALUES("TQ5101122", "TMDAQ", "San Francisco de Asis","2300", "Trapasitos", "Trapasitos","Monterrey","Nuevo León","México",NULL);
+INSERT INTO taller VALUES("TS6101122", "TMDASXT", "Roberto Chavez","400", "  Cd. Deportiva", "Ecatepec","Ecatepec de Morelos","Ciudad de México","México",NULL);
+INSERT INTO taller VALUES("TS7101122", "TMDASPT", "Pázcuaro Vias Galante","566", "Tabasqueña", "Linda Vista","Centro","Ciudad de México","México",NULL);
+INSERT INTO taller VALUES("TO8101122", "TMDAOCT", "Calzada del Pacifico","114", "Vista Nevado Plus", "Sn Juan de laa Huertas","San Miguel Zinacantepec","Estado de México","México",NULL);
+INSERT INTO taller VALUES("TN9101122", "TMDAN", "Blvd Solidaridad las Torres","1140", "Comonford", "Comonford","San Miguel Zinacantepec","Estado de México","México",NULL);
+INSERT INTO taller VALUES("TD1101122", "TMDAD", "Salinas Sanchéz","4000", "Pochita", "Ibiruapuato","Ibiruapuato","Sinaloa","México",NULL);
+
+INSERT INTO cliente_auto VALUES("123456", "PEP-122");
+INSERT INTO cliente_auto VALUES("456789", "SEP-222");
+INSERT INTO cliente_auto VALUES("345743", "TEP-322");
+INSERT INTO cliente_auto VALUES("111245", "CEP-422");
+INSERT INTO cliente_auto VALUES("577585", "QEP-522");
+INSERT INTO cliente_auto VALUES("111111", "SEP-622");
+INSERT INTO cliente_auto VALUES("456576", "SBP-722");
+INSERT INTO cliente_auto VALUES("765757", "OEP-822");
+INSERT INTO cliente_auto VALUES("191111", "NEP-922");
+INSERT INTO cliente_auto VALUES("192222", "DEP-132");
+INSERT INTO cliente_auto VALUES("193333", "OSP-232");
+INSERT INTO cliente_auto VALUES("194444", "DSP-332");
+INSERT INTO cliente_auto VALUES("195555", "TSP-432");
+INSERT INTO cliente_auto VALUES("201111", "CSP-532");
+INSERT INTO cliente_auto VALUES("202222", "QSP-632");
+INSERT INTO cliente_auto VALUES("203333", "QSP-632");
+INSERT INTO cliente_auto VALUES("204444", "DSP-332");
+INSERT INTO cliente_auto VALUES("205555", "DEP-132");
+INSERT INTO cliente_auto VALUES("206666", "SBP-722");
+INSERT INTO cliente_auto VALUES("207777", "QEP-522");
+
+INSERT INTO accidente VALUES("1","123456", "PEP-122","TP1101122","2022-10-21","6000");
+INSERT INTO accidente VALUES("2","456789", "SEP-222","TS2101122","2022-10-21","600000");
+INSERT INTO accidente VALUES("3","345743", "TEP-322","TD1101122","2022-10-21","997878");
+INSERT INTO accidente VALUES("4","111245", "CEP-422","TS7101122","2022-10-21","78958");
+INSERT INTO accidente VALUES("5","577585", "QEP-522","TO8101122","2022-10-21","6686");
+INSERT INTO accidente VALUES("6","111111", "SEP-622","TS7101122","2022-10-21","600");
+INSERT INTO accidente VALUES("7","456576", "SBP-722","TT3101122","2022-10-21","5886");
+INSERT INTO accidente VALUES("8","765757", "OEP-822","TS210112","2022-10-21","6865");
+INSERT INTO accidente VALUES("9","191111", "NEP-922","TS2101122","2022-10-21","6886");
+INSERT INTO accidente VALUES("10","192222", "DEP-132","TS2101122","2022-10-21","6676");
+INSERT INTO accidente VALUES("11","193333", "OSP-232","TN9101122","2022-10-21","47674");
+INSERT INTO accidente VALUES("12","194444",  "DSP-332","TS2101122","2022-10-21","678000");
+INSERT INTO accidente VALUES("13","195555", "TSP-432","TQ5101122","2022-10-21","678948");
+INSERT INTO accidente VALUES("14","201111", "CSP-532","TS2101122","2022-10-21","789000");
+INSERT INTO accidente VALUES("15","202222", "QSP-632","TS7101122","2022-10-21","60000");
+INSERT INTO accidente VALUES("16","203333", "QSP-632","TC4101122","2022-10-21","13400");
+INSERT INTO accidente VALUES("17","204444", "DSP-332","TT3101122","2022-10-21","567799");
+INSERT INTO accidente VALUES("18","205555", "DEP-132","TS2101122","2022-10-21","576755");
+INSERT INTO accidente VALUES("19","206666", "SBP-722","TT3101122","2022-10-21","785687");
+INSERT INTO accidente VALUES("20","207777", "QEP-522","TP1101122","2022-10-21","84755");
+
+
+
