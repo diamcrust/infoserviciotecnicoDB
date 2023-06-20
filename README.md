@@ -1,6 +1,9 @@
 # infoserviciotecnicoDB
 Proyecto de Bases de Datos I. Desarrollado con PHP y MySQL en XAMMP [desarrollado en windows].
 
+La DB es creada desde MySQL server.
+
+
 Este proyecto administra la información de un taller mecanico basado en las entidades:
 
 -cliente
@@ -26,3 +29,4 @@ La info sobre este proyecto se puede entontrar en ../documentación/practica_mec
 
 # Requerimientos (Windows): 
 Es necesario instalar MySQL server para emplear MySQL command line client: https://dev.mysql.com/downloads/mysql/
+
